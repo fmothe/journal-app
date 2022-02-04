@@ -2,24 +2,25 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { loginAction, startLoginEmailPassword } from "../../redux/actions/auth";
+import { startGoogleLogin, startLoginWithUserIdPassword } from "../../redux/actions/auth";
 
 export const LoginScreen = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [values, handleInputChange] = useForm({
-    uid:'fmothe',
-    password:'123'
-    
+    uid: "fmothe",
+    password: "123",
   });
 
-  const handleLogin = (e) =>{
+  const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(startLoginEmailPassword(values.uid, 'federico'));
-    
+    dispatch(startLoginWithUserIdPassword(values.uid, "federico"));
+  };
+
+  const googleLogin = () =>{
+    dispatch(startGoogleLogin())
   }
 
-  const {uid, password} = values
+  const { uid, password } = values;
   return (
     <>
       <h3 className="auth__title"> Login </h3>
@@ -42,13 +43,13 @@ export const LoginScreen = () => {
           onChange={handleInputChange}
         />
 
-        <button className="btn btn-primary btn-block" type="submit" >
+        <button className="btn btn-primary btn-block" type="submit">
           Login
         </button>
         <div className="auth__social">
           <p>Login with Social</p>
 
-          <div className="google-btn">
+          <div className="google-btn" onClick={googleLogin}>
             <div className="google-icon-wrapper">
               <img
                 className="google-icon"
@@ -61,8 +62,13 @@ export const LoginScreen = () => {
             </p>
           </div>
         </div>
-        <p className="auth__signin">Don't have an Account? <Link to="/auth/register" className="ml-1 link"> Sign In</Link></p>
-        
+        <p className="auth__signin">
+          Don't have an Account?{" "}
+          <Link to="/auth/register" className="ml-1 link">
+            {" "}
+            Sign In
+          </Link>
+        </p>
       </form>
     </>
   );
