@@ -21,6 +21,15 @@ export const startGoogleLogin = () => {
   };
 };
 
+export const createNewUserAction = (username, password, email, pname, last_name) => {
+  return (dispatch) => {
+    dispatch({
+      type: types.register,
+      payload: { username, password, email, pname, last_name },
+    });
+  };
+};
+
 export const loginAction = (uid, displayName, email, photoUrl) => ({
   type: types.login,
   payload: { uid, displayName, email, photoUrl },

@@ -17,7 +17,14 @@ export const authReducer = (state = {}, action) => {
             }
         case types.logout:
             return{}
-
+        case types.register:
+            return{
+                username: action.payload.username,
+                password: action.payload.password,
+                email: action.payload.email,
+                pname: action.payload.pname,
+                last_name: action.payload.last_name,
+            }
         default:
             return state;
     }

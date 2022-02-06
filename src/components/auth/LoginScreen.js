@@ -7,8 +7,8 @@ import { startGoogleLogin, startLoginWithUserIdPassword } from "../../redux/acti
 export const LoginScreen = () => {
   const dispatch = useDispatch();
   const [values, handleInputChange] = useForm({
-    uid: "fmothe",
-    password: "123",
+    uid: "",
+    password: "",
   });
 
   const handleLogin = (e) => {
