@@ -1,12 +1,35 @@
 import { types } from "../../types/types";
 import { googleAuthProvider } from "../../firebase/firebase-config";
-import { getAuth, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 export const startLoginWithUserIdPassword = (uid, password) => {
   return (dispatch) => {
     setTimeout(() => {
       dispatch(loginAction(1234, "federico"));
     }, 1500);
+  };
+};
+
+export const registerNewUser = (
+  username,
+  password,
+  email,
+  pname,
+  last_name
+) => {
+  return (dispatch) => {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password).then(
+      async ({ user }) => {
+        await updateProfile(user, {displayName:pname});
+        console.log(user);
+      }
+    );
   };
 };
 
@@ -21,7 +44,13 @@ export const startGoogleLogin = () => {
   };
 };
 
-export const createNewUserAction = (username, password, email, pname, last_name) => {
+export const createNewUserAction = (
+  username,
+  password,
+  email,
+  pname,
+  last_name
+) => {
   return (dispatch) => {
     dispatch({
       type: types.register,
