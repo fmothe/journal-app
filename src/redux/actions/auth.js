@@ -5,34 +5,30 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   updateProfile,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
+import { finishLoadingAction, startLoadingAction } from "./ui";
 
-export const startLoginWithUserIdPassword = (uid, password) => {
+export const startLoginWithUserIdPassword = (email, password) => {
   return (dispatch) => {
-    setTimeout(() => {
-      dispatch(loginAction(1234, "federico"));
-    }, 1500);
-  };
-};
-
-export const registerNewUser = (
-  username,
-  password,
-  email,
-  pname,
-  last_name
-) => {
-  return (dispatch) => {
+    console.log("METHOD -- startLoginWithUserIdPassword -- START");
+    dispatch(startLoadingAction());
     const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password).then(
-      async ({ user }) => {
-        await updateProfile(user, {displayName:pname});
-        console.log(user);
-      }
-    );
+    signInWithEmailAndPassword(auth, email, password)
+      .then((user) => {
+        dispatch(
+          loginAction(user.email, user.uid)
+        );
+        console.log("METHOD -- startLoginWithUserIdPassword -- SUCCESS");
+        dispatch(finishLoadingAction());
+      })
+      .catch((err) => console.log(err));
   };
 };
 
+/**
+ * Realiza el google login
+ */
 export const startGoogleLogin = () => {
   return (dispatch) => {
     const auth = getAuth();
@@ -44,7 +40,16 @@ export const startGoogleLogin = () => {
   };
 };
 
-export const createNewUserAction = (
+/**
+ * Crea un nuevo usuario con los campos en firebase (email y password) updatea profile para agregar el nombre y apellido
+ * @param {*} username
+ * @param {*} password
+ * @param {*} email
+ * @param {*} pname
+ * @param {*} last_name
+ * @returns
+ */
+export const registerNewUser = (
   username,
   password,
   email,
@@ -52,14 +57,35 @@ export const createNewUserAction = (
   last_name
 ) => {
   return (dispatch) => {
-    dispatch({
-      type: types.register,
-      payload: { username, password, email, pname, last_name },
-    });
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async ({ user }) => {
+        await updateProfile(user, { displayName: pname });
+        dispatch(
+          loginAction(user.uid, user.displayName, user.email, user.photoURL)
+        );
+      })
+      .catch((err) => console.log(err));
   };
 };
 
-export const loginAction = (uid, displayName, email, photoUrl) => ({
+/**Action Login */
+export const loginAction = (email, uid) => ({
   type: types.login,
-  payload: { uid, displayName, email, photoUrl },
+  payload: { email,uid },
 });
+
+// export const createNewUserAction = (
+//   username,
+//   password,
+//   email,
+//   pname,
+//   last_name
+// ) => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: types.register,
+//       payload: { username, password, email, pname, last_name },
+//     });
+//   };
+// };
