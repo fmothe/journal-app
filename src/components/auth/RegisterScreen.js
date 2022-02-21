@@ -5,6 +5,7 @@ import { useForm } from "../../hooks/useForm";
 import validator from "validator";
 import { removeErrorAction, setErrorAction } from "../../redux/actions/ui";
 import { registerNewUser } from "../../redux/actions/auth";
+import Swal from 'sweetalert2'
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
 
@@ -30,15 +31,19 @@ export const RegisterScreen = () => {
   const isValidField = () => {
     if (username.trim().length === 0) {
       dispatch(setErrorAction("username is required"));
+      Swal.fire('Error', 'Username is required', 'error')
       return false;
     } else if (!validator.isEmail(email)) {
       dispatch(setErrorAction("email is invalid"));
+      Swal.fire('Error', 'Email is invalid', 'error')
       return false;
     } else if (password.length < 5) {
       dispatch(setErrorAction("password is too short"));
+      Swal.fire('Error', 'Password is too short', 'error')
       return false;
     } else if (validator.isEmpty(pname) || validator.isEmpty(last_name)) {
       dispatch(setErrorAction("Name and Last Name are required"));
+      Swal.fire('Error', 'Name and Last Name are required', 'error')
       return false;
     }
 
@@ -50,7 +55,7 @@ export const RegisterScreen = () => {
     <>
       <h3 className="auth__title"> Register </h3>
       <form onSubmit={handleRegister}>
-        {msgError && <div className="auth__alert-error"> {msgError}</div>}
+        {/* {msgError && <div className="auth__alert-error"> {msgError}</div>} */}
         <input
           className="auth__input"
           type="text"

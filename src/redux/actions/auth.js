@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { types } from "../../types/types";
 import { googleAuthProvider } from "../../firebase/firebase-config";
 import {
@@ -16,13 +17,15 @@ export const startLoginWithUserIdPassword = (email, password) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
-        dispatch(
-          loginAction(user.email, user.uid)
-        );
+        dispatch(loginAction(user.email, user.uid));
         console.log("METHOD -- startLoginWithUserIdPassword -- SUCCESS");
         dispatch(finishLoadingAction());
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        dispatch(finishLoadingAction());
+        Swal.fire("Error", err.message, "error");
+      });
   };
 };
 
@@ -65,15 +68,32 @@ export const registerNewUser = (
           loginAction(user.uid, user.displayName, user.email, user.photoURL)
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        Swal.fire("Error", err.message, "error");
+      });
   };
 };
 
 /**Action Login */
 export const loginAction = (email, uid) => ({
   type: types.login,
-  payload: { email,uid },
+  payload: { email, uid },
 });
+
+export const startLogout = () => {
+  return (dispatch) => {
+    const auth = getAuth();
+    auth
+      .signOut()
+      .then(() => {
+        dispatch(logoutAction());
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const logoutAction = () => ({ type: types.logout });
 
 // export const createNewUserAction = (
 //   username,
