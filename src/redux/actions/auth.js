@@ -24,7 +24,7 @@ export const startLoginWithUserIdPassword = (email, password) => {
       .catch((err) => {
         console.log(err);
         dispatch(finishLoadingAction());
-        Swal.fire("Error", err.message, "error");
+        Swal.fire('Error', err.message, 'error');
       });
   };
 };
@@ -68,10 +68,8 @@ export const registerNewUser = (
           loginAction(user.uid, user.displayName, user.email, user.photoURL)
         );
       })
-      .catch((err) => {
-        console.log(err);
-        Swal.fire("Error", err.message, "error");
-      });
+      .catch((err) => {console.log(err) 
+        Swal.fire('Error', err.message, 'error');});
   };
 };
 
