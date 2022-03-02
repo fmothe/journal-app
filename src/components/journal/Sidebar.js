@@ -8,6 +8,7 @@ export const Sidebar = () => {
   const dispatch = useDispatch();
   const {email} = useSelector((state) => state.auth);
 
+  
   const handleLogout = () => {
     dispatch(startLogout())
   };
