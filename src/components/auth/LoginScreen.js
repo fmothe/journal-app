@@ -6,8 +6,7 @@ import {
   startGoogleLogin,
   startLoginWithUserIdPassword,
 } from "../../redux/actions/auth";
-import validator from "validator";
-import { removeErrorAction, setErrorAction } from "../../redux/actions/ui";
+import 'animate.css'
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -33,7 +32,10 @@ export const LoginScreen = () => {
       <h3 className="auth__title"> Login </h3>
 
       {msgError && <div className="auth__alert-error"> {msgError}</div>}
-      <form onSubmit={handleLogin}>
+      <form
+        className="animate_animated animate__bounce animate__slow"
+        onSubmit={handleLogin}
+      >
         <input
           className="auth__input"
           type="text"
