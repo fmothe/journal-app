@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { finishLoadingAction, startLoadingAction } from "./ui";
+import { notesLogout } from "./notes";
 
 export const startLoginWithUserIdPassword = (email, password) => {
   return (dispatch) => {
@@ -86,6 +87,7 @@ export const startLogout = () => {
       .signOut()
       .then(() => {
         dispatch(logoutAction());
+        dispatch(notesLogout())
       })
       .catch((err) => console.log(err));
   };

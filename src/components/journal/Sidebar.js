@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { JournalEntries } from "./JournalEntries";
 import { useDispatch, useSelector } from "react-redux";
 import { startLogout } from "../../redux/actions/auth";
@@ -8,7 +8,6 @@ export const Sidebar = () => {
   const dispatch = useDispatch();
   const {email} = useSelector((state) => state.auth);
 
-  
   const handleLogout = () => {
     dispatch(startLogout())
   };

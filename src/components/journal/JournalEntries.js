@@ -7,12 +7,12 @@ export const JournalEntries = () => {
   const entries = useSelector((state) => state.notes.notes);
   const dispatch = useDispatch();
 
+  const sortedEntries = entries.sort((a, b) => b.date-a.date)
 
   
-
   return (
     <div className="journal__entries">
-      {entries.map((entry) => (
+      {sortedEntries.map((entry) => (
         <JournalEntry key={entry.id} {...entry} />
       ))}
     </div>

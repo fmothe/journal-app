@@ -35,6 +35,20 @@
     }
 }
 
+
+.btn-danger{
+    background-color: $danger;
+    border-radius: 3px;
+
+    &:disabled{
+        background-color: lighten($color: $danger, $amount: 15);
+    }
+
+    &:hover{
+        background-color: darken($color: $danger, $amount: 20);
+    }
+}
+
 .btn-block {
   width: 100%;
 }

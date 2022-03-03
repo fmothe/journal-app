@@ -45,6 +45,7 @@ export const NoteScreen = () => {
           name="body"
         ></textarea>
       </div>
+
     </div>
   );
 };
