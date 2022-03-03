@@ -6,7 +6,7 @@ import {
   startGoogleLogin,
   startLoginWithUserIdPassword,
 } from "../../redux/actions/auth";
-import 'animate.css'
+import "animate.css";
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
